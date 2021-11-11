@@ -13,7 +13,12 @@ func main() {
 	r.Static("/js", "assets/js")
 	r.GET("index", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
-			"title": "Main website",
+			"title": "Main websites",
+		})
+	})
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
 		})
 	})
 	r.GET("html", func(c *gin.Context) {
