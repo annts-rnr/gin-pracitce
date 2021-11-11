@@ -1,3 +1,6 @@
 FROM golang:latest
+
+RUN go get -u github.com/cosmtrek/air
+
 WORKDIR /go/src
-CMD ["go", "run", "index.go" ]
+CMD ["air", "-c", ".air.toml"]
