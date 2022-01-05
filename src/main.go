@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/annts095/gin-practice/database"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,6 +24,12 @@ func main() {
 	})
 	r.GET("html", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{})
+	})
+	r.GET("items_migrate", func(c *gin.Context) {
+		database.ItemMigrate()
+		c.JSON(200, gin.H{
+			"message": "migratie success: items",
+		})
 	})
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
