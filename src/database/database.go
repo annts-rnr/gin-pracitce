@@ -4,16 +4,10 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/annts095/gin-practice/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
-
-type Item struct {
-	ID       int    `gorm:"primary_key;not null"`
-	Title    string `gorm:"type:varchar(200);not null"`
-	Contents string `gorm:"type:varchar(400)"`
-	Price    string `gorm:"type:integer"`
-}
 
 func getGormConnect() *gorm.DB {
 	USER := os.Getenv("DB_USER")
@@ -35,7 +29,7 @@ func getGormConnect() *gorm.DB {
 
 func ItemMigrate() {
 	db := getGormConnect()
-	db.AutoMigrate(&Item{})
+	db.AutoMigrate(&model.Item{})
 
 	fmt.Println("migrate success")
 }
