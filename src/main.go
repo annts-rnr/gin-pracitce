@@ -4,6 +4,8 @@ import (
 	"net/http"
 
 	"github.com/annts095/gin-practice/database"
+	"github.com/annts095/gin-practice/model"
+	"github.com/annts095/gin-practice/repository"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,6 +26,15 @@ func main() {
 	})
 	r.GET("html", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{})
+	})
+	r.POST("items", func(c *gin.Context) {
+		var item = model.Item{}
+		c.ShouldBindJSON(&item)
+		repository := repository.ItemRepository{DB: database.GetGormConnect()}
+		repository.Save(&item)
+		c.JSON(200, gin.H{
+			"message": "create success",
+		})
 	})
 	r.GET("items_migrate", func(c *gin.Context) {
 		database.ItemMigrate()
