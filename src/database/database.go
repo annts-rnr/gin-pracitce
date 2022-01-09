@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func getGormConnect() *gorm.DB {
+func GetGormConnect() *gorm.DB {
 	USER := os.Getenv("DB_USER")
 	PASS := os.Getenv("DB_PASSWORD")
 	PORT := os.Getenv("DB_PORT")
@@ -28,7 +28,7 @@ func getGormConnect() *gorm.DB {
 }
 
 func ItemMigrate() {
-	db := getGormConnect()
+	db := GetGormConnect()
 	db.AutoMigrate(&model.Item{})
 
 	fmt.Println("migrate success")
