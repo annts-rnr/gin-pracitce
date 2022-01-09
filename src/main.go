@@ -33,7 +33,10 @@ func main() {
 		repository := repository.ItemRepository{DB: database.GetGormConnect()}
 		repository.Save(&item)
 		c.JSON(200, gin.H{
-			"message": "create success",
+			"id":       item.ID,
+			"title":    item.Title,
+			"contents": item.Contents,
+			"price":    item.Price,
 		})
 	})
 	r.GET("items_migrate", func(c *gin.Context) {
