@@ -1,5 +1,9 @@
 package input
 
+type ItemIDInput struct {
+	ID int `uri:"id"`
+}
+
 type ItemCreateInput struct {
 	Item struct {
 		Title    string `json:"title" binding:"required"`
