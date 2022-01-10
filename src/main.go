@@ -5,6 +5,7 @@ import (
 
 	"github.com/annts095/gin-practice/controller"
 	"github.com/annts095/gin-practice/database"
+	"github.com/annts095/gin-practice/repository"
 	"github.com/gin-gonic/gin"
 )
 
@@ -28,8 +29,9 @@ func main() {
 	r.GET("html", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
+	repository := repository.ItemRepository{DB: database.GetGormConnect()}
 	r.POST("items", func(c *gin.Context) {
-		itemController := controller.ItemController{Context: c}
+		itemController := controller.ItemController{Context: c, Repository: &repository}
 		itemController.Create()
 	})
 	r.GET("items_migrate", func(c *gin.Context) {
