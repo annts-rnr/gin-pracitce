@@ -1,9 +1,6 @@
 package repository
 
 import (
-	"fmt"
-
-	"github.com/annts095/gin-practice/input"
 	"github.com/annts095/gin-practice/model"
 	"gorm.io/gorm"
 )
@@ -23,8 +20,7 @@ func (r *ItemRepository) FindById(input input.ItemIDInput) (*model.Item, error) 
 }
 
 func (r *ItemRepository) Save(item *model.Item) {
-	r.DB.Create(item)
-	fmt.Println("create success")
+	r.DB.Save(item)
 }
 
 func (r *ItemRepository) Delete(item *model.Item) error {
