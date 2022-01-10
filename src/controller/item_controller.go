@@ -36,7 +36,7 @@ func (c *ItemController) Create() {
 
 	repository := repository.ItemRepository{DB: database.GetGormConnect()}
 	repository.Save(&item)
-	c.Context.JSON(200, gin.H{
+	c.Context.JSON(http.StatusOK, gin.H{
 		"id":       item.ID,
 		"title":    item.Title,
 		"contents": item.Contents,

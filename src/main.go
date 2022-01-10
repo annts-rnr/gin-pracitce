@@ -21,7 +21,7 @@ func main() {
 		})
 	})
 	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"message": "pong",
 		})
 	})
@@ -34,7 +34,7 @@ func main() {
 	})
 	r.GET("items_migrate", func(c *gin.Context) {
 		database.ItemMigrate()
-		c.JSON(200, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"message": "migratie success: items",
 		})
 	})
