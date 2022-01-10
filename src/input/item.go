@@ -11,3 +11,12 @@ type ItemCreateInput struct {
 		Price    int    `json:"price" binding:"required"`
 	} `json:"item"`
 }
+
+type ItemUpdateInput struct {
+	ID   int `uri:"id"`
+	Item struct {
+		Title    string `json:"title" binding:"required"`
+		Contents string `json:"contents" binding:"required"`
+		Price    int    `json:"price" binding:"required"`
+	} `json:"item"`
+}
