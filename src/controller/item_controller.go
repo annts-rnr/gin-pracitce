@@ -14,6 +14,39 @@ type ItemController struct {
 	Context    *gin.Context
 	Repository *repository.ItemRepository
 }
+
+func (c *ItemController) Show() {
+	var input input.ItemIDInput
+
+	if err := c.Context.ShouldBindUri(&input); err != nil {
+		h := map[string]string{
+			"code":    strconv.Itoa(http.StatusBadRequest),
+			"message": err.Error(),
+		}
+
+		c.Context.AbortWithStatusJSON(http.StatusBadRequest, h)
+
+		return
+	}
+
+	item, err := c.Repository.FindById(input)
+	if err != nil {
+		h := map[string]string{
+			"code":    strconv.Itoa(http.StatusBadRequest),
+			"message": err.Error(),
+		}
+
+		c.Context.AbortWithStatusJSON(http.StatusBadRequest, h)
+
+		return
+	}
+
+	c.Context.JSON(http.StatusOK, gin.H{
+		"id":       item.ID,
+		"title":    item.Title,
+		"contents": item.Contents,
+		"price":    item.Price,
+	})
 }
 
 func (c *ItemController) Create() {

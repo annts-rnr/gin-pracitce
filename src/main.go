@@ -30,6 +30,10 @@ func main() {
 		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 	repository := repository.ItemRepository{DB: database.GetGormConnect()}
+	r.GET("items/:id", func(c *gin.Context) {
+		itemController := controller.ItemController{Context: c, Repository: &repository}
+		itemController.Show()
+	})
 	r.POST("items", func(c *gin.Context) {
 		itemController := controller.ItemController{Context: c, Repository: &repository}
 		itemController.Create()
