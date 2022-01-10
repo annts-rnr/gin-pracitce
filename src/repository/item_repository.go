@@ -26,3 +26,10 @@ func (r *ItemRepository) Save(item *model.Item) {
 	r.DB.Create(item)
 	fmt.Println("create success")
 }
+
+func (r *ItemRepository) Delete(item *model.Item) error {
+	if err := r.DB.Delete(item).Error; err != nil {
+		return err
+	}
+	return nil
+}
