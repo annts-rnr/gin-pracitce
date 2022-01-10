@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/annts095/gin-practice/database"
 	"github.com/annts095/gin-practice/input"
 	"github.com/annts095/gin-practice/model"
 	"github.com/annts095/gin-practice/repository"
@@ -12,7 +11,9 @@ import (
 )
 
 type ItemController struct {
-	Context *gin.Context
+	Context    *gin.Context
+	Repository *repository.ItemRepository
+}
 }
 
 func (c *ItemController) Create() {
@@ -34,8 +35,7 @@ func (c *ItemController) Create() {
 		Price:    input.Item.Price,
 	}
 
-	repository := repository.ItemRepository{DB: database.GetGormConnect()}
-	repository.Save(&item)
+	c.Repository.Save(&item)
 	c.Context.JSON(http.StatusOK, gin.H{
 		"id":       item.ID,
 		"title":    item.Title,
