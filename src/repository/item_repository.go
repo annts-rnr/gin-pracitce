@@ -9,10 +9,10 @@ type ItemRepository struct {
 	DB *gorm.DB
 }
 
-func (r *ItemRepository) FindById(input input.ItemIDInput) (*model.Item, error) {
+func (r *ItemRepository) FindById(id int) (*model.Item, error) {
 	var item model.Item
 
-	if err := r.DB.First(&item, input.ID).Error; err != nil {
+	if err := r.DB.First(&item, id).Error; err != nil {
 		return nil, err
 	}
 

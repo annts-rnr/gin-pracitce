@@ -29,7 +29,7 @@ func (c *ItemController) Show() {
 		return
 	}
 
-	item, err := c.Repository.FindById(input)
+	item, err := c.Repository.FindById(input.ID)
 	if err != nil {
 		h := map[string]string{
 			"code":    strconv.Itoa(http.StatusBadRequest),
@@ -91,7 +91,7 @@ func (c *ItemController) Delete() {
 		return
 	}
 
-	item, err := c.Repository.FindById(input)
+	item, err := c.Repository.FindById(input.ID)
 	if err != nil {
 		h := map[string]string{
 			"code":    strconv.Itoa(http.StatusBadRequest),
