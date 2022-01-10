@@ -38,6 +38,10 @@ func main() {
 		itemController := controller.ItemController{Context: c, Repository: &repository}
 		itemController.Create()
 	})
+	r.PUT("items/:id", func(c *gin.Context) {
+		itemController := controller.ItemController{Context: c, Repository: &repository}
+		itemController.Update()
+	})
 	r.DELETE("items/:id", func(c *gin.Context) {
 		itemController := controller.ItemController{Context: c, Repository: &repository}
 		itemController.Delete()

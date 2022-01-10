@@ -29,7 +29,7 @@ func (c *ItemController) Show() {
 		return
 	}
 
-	item, err := c.Repository.FindById(input)
+	item, err := c.Repository.FindById(input.ID)
 	if err != nil {
 		h := map[string]string{
 			"code":    strconv.Itoa(http.StatusBadRequest),
@@ -77,6 +77,56 @@ func (c *ItemController) Create() {
 	})
 }
 
+func (c *ItemController) Update() {
+	var input input.ItemUpdateInput
+
+	if err := c.Context.ShouldBindJSON(&input); err != nil {
+		h := map[string]string{
+			"code":    strconv.Itoa(http.StatusBadRequest),
+			"message": err.Error(),
+		}
+
+		c.Context.AbortWithStatusJSON(http.StatusBadRequest, h)
+
+		return
+	}
+
+	if err := c.Context.ShouldBindUri(&input); err != nil {
+		h := map[string]string{
+			"code":    strconv.Itoa(http.StatusBadRequest),
+			"message": err.Error(),
+		}
+
+		c.Context.AbortWithStatusJSON(http.StatusBadRequest, h)
+
+		return
+	}
+
+	item, err := c.Repository.FindById(input.ID)
+	if err != nil {
+		h := map[string]string{
+			"code":    strconv.Itoa(http.StatusBadRequest),
+			"message": err.Error(),
+		}
+
+		c.Context.AbortWithStatusJSON(http.StatusBadRequest, h)
+
+		return
+	}
+
+	item.Title = input.Item.Contents
+	item.Contents = input.Item.Contents
+	item.Price = input.Item.Price
+
+	c.Repository.Save(item)
+	c.Context.JSON(http.StatusOK, gin.H{
+		"id":       item.ID,
+		"title":    item.Title,
+		"contents": item.Contents,
+		"price":    item.Price,
+	})
+}
+
 func (c *ItemController) Delete() {
 	var input input.ItemIDInput
 
@@ -91,7 +141,7 @@ func (c *ItemController) Delete() {
 		return
 	}
 
-	item, err := c.Repository.FindById(input)
+	item, err := c.Repository.FindById(input.ID)
 	if err != nil {
 		h := map[string]string{
 			"code":    strconv.Itoa(http.StatusBadRequest),
