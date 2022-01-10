@@ -38,6 +38,10 @@ func main() {
 		itemController := controller.ItemController{Context: c, Repository: &repository}
 		itemController.Create()
 	})
+	r.DELETE("items/:id", func(c *gin.Context) {
+		itemController := controller.ItemController{Context: c, Repository: &repository}
+		itemController.Delete()
+	})
 	r.GET("items_migrate", func(c *gin.Context) {
 		database.ItemMigrate()
 		c.JSON(http.StatusOK, gin.H{

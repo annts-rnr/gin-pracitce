@@ -76,3 +76,43 @@ func (c *ItemController) Create() {
 		"price":    item.Price,
 	})
 }
+
+func (c *ItemController) Delete() {
+	var input input.ItemIDInput
+
+	if err := c.Context.ShouldBindUri(&input); err != nil {
+		h := map[string]string{
+			"code":    strconv.Itoa(http.StatusBadRequest),
+			"message": err.Error(),
+		}
+
+		c.Context.AbortWithStatusJSON(http.StatusBadRequest, h)
+
+		return
+	}
+
+	item, err := c.Repository.FindById(input)
+	if err != nil {
+		h := map[string]string{
+			"code":    strconv.Itoa(http.StatusBadRequest),
+			"message": err.Error(),
+		}
+
+		c.Context.AbortWithStatusJSON(http.StatusBadRequest, h)
+
+		return
+	}
+
+	if err := c.Repository.Delete(item); err != nil {
+		h := map[string]string{
+			"code":    strconv.Itoa(http.StatusBadRequest),
+			"message": err.Error(),
+		}
+
+		c.Context.AbortWithStatusJSON(http.StatusBadRequest, h)
+
+		return
+	}
+
+	c.Context.JSON(http.StatusNoContent, gin.H{})
+}
