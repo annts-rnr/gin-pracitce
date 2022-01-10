@@ -2,12 +2,9 @@ package main
 
 import (
 	"net/http"
-	"strconv"
 
+	"github.com/annts095/gin-practice/controller"
 	"github.com/annts095/gin-practice/database"
-	"github.com/annts095/gin-practice/input"
-	"github.com/annts095/gin-practice/model"
-	"github.com/annts095/gin-practice/repository"
 	"github.com/gin-gonic/gin"
 )
 
@@ -32,32 +29,8 @@ func main() {
 		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 	r.POST("items", func(c *gin.Context) {
-		var input input.ItemCreateInput
-
-		if err := c.ShouldBindJSON(&input); err != nil {
-			h := map[string]string{
-				"code":    strconv.Itoa(http.StatusBadRequest),
-				"message": err.Error(),
-			}
-
-			c.AbortWithStatusJSON(http.StatusBadRequest, h)
-
-			return
-		}
-		item := model.Item{
-			Title:    input.Item.Title,
-			Contents: input.Item.Contents,
-			Price:    input.Item.Price,
-		}
-
-		repository := repository.ItemRepository{DB: database.GetGormConnect()}
-		repository.Save(&item)
-		c.JSON(200, gin.H{
-			"id":       item.ID,
-			"title":    item.Title,
-			"contents": item.Contents,
-			"price":    item.Price,
-		})
+		itemController := controller.ItemController{Context: c}
+		itemController.Create()
 	})
 	r.GET("items_migrate", func(c *gin.Context) {
 		database.ItemMigrate()
